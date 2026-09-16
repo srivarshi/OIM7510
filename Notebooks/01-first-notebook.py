@@ -76,7 +76,6 @@ def _():
 @app.cell
 def _(freight_charges):
     freight_charges
-
     return
 
 
@@ -152,7 +151,6 @@ def _(mo):
 @app.cell
 def _(freight_charges):
     freight_charges[0]
-
     return
 
 
@@ -166,6 +164,13 @@ def _(freight_charges):
 def _(freight_charges):
     sum(freight_charges)
     return
+
+
+@app.cell
+def _(freight_charges):
+    total = sum(freight_charges)
+    total
+    return (total,)
 
 
 @app.cell(hide_code=True)
@@ -207,9 +212,9 @@ def _(orders):
     Order=3
     orders*3
 
-    total=5
+    totaltest=5
 
-    print(total)
+    print(totaltest)
     return
 
 
@@ -319,6 +324,86 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    It would give an error
+    Would give an error
+    Give the order on the 0 place and frieght chagres on the 0 place, common is the asking for the 0 place
+    It is counting the number of items present in that funciton
+    Yes, it adds all the orders
+    True
+    Sorted makes the numbers arrange from least to highest. I think reverse=true change would make it to the orginal one. and changes itself_
+    """)
+    return
+
+
+@app.cell
+def _(freight_charges):
+    freight_charges[-1]
+    return
+
+
+@app.cell
+def _(freight_charges):
+    freight_charges[:3]
+    return
+
+
+@app.cell
+def _(orders):
+    orders[0]
+    return
+
+
+@app.cell
+def _(freight_charges):
+    freight_charges[0]
+    return
+
+
+@app.cell
+def _():
+    category = "Confections"
+    return (category,)
+
+
+@app.cell
+def _(category):
+    len(category)
+    return
+
+
+@app.cell
+def _(orders):
+    sum(orders)
+    return
+
+
+@app.cell
+def _(orders):
+    orders * 2
+    return
+
+
+@app.cell
+def _(freight_charges, orders):
+    orders + freight_charges
+    return
+
+
+@app.cell
+def _(freight_charges):
+    sorted(freight_charges)
+    return
+
+
+@app.cell
+def _(freight_charges):
+    sorted(freight_charges, reverse=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     # ▶️ What Type Is It
 
     What kind of value is each thing in these two lists?
@@ -355,6 +440,19 @@ def _(mo):
     return
 
 
+@app.cell
+def _():
+    "16.75" + "22.25"
+
+    return
+
+
+@app.cell
+def _():
+    16.75 + "22.25"
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -386,6 +484,24 @@ def _(mo):
 
     📖 Handbook: Python §3 Expressions and operators
     """)
+    return
+
+
+@app.cell
+def _(freight_charges):
+    freight_charges[0] > 20
+    return
+
+
+@app.cell
+def _(freight_charges):
+    freight_charges[-1] == max(freight_charges)
+    return
+
+
+@app.cell
+def _():
+    type()
     return
 
 
@@ -427,6 +543,19 @@ def _(mo):
     return
 
 
+@app.cell
+def _(freight_charges, total):
+    average_charge = total / len(freight_charges)
+    average_charge
+    return (average_charge,)
+
+
+@app.cell
+def _(average_charge, total):
+    print(f"Total freight was ${total:.2f}, with an average charge of ${average_charge:.2f}.")
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -444,7 +573,7 @@ def _(freight_charges):
         if charge > 20:
             over_20.append(charge)
     over_20
-    return
+    return (charge,)
 
 
 @app.cell(hide_code=True)
@@ -474,6 +603,16 @@ def _(mo):
 
     With the list as it started, your sentence should show three charges and `$59.25`.
     """)
+    return
+
+
+@app.cell
+def _(charge, freight_charges):
+    over_25 = []
+    for charges in freight_charges:
+        if charges > 25:
+            over_25.append(charge)
+    over_25
     return
 
 
@@ -515,6 +654,51 @@ def _(mo):
     return
 
 
+@app.cell
+def _():
+    import pandsa
+
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    It says there is nothing called panda in its packages
+    """)
+    return
+
+
+@app.cell
+def _():
+    open("sales.csv")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    There is no directory available called sales
+    """)
+    return
+
+
+app._unparsable_cell(
+    r"""
+    new_charges = [16.75, 22.25,
+    """,
+    name="_"
+)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Need to close the brackets for the code to run
+    """)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -524,6 +708,20 @@ def _(mo):
 
     `max(["9.50", "16.75", "22.25"])`
     """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    This gives the maximum value of the given numbers
+    """)
+    return
+
+
+@app.cell
+def _():
+    max(["9.50", "16.75", "22.25"])
     return
 
 
@@ -569,6 +767,16 @@ def _(mo):
     1. Which line does Python name?
     2. Which line would you change, and why is it a different line from the one Python named?
     3. What would you change it to? More than one answer is defensible, so state the rule you chose.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Python named line 3
+    I would change line 2 first as it has numbers and text together, I think pythong named it as line 3 because it just read the line1 and went to line3 which is asking it to execute so then it realized that there is an error to execute the line 3 as the line 1 is wrong
+    I would break down the numbers and text separately
     """)
     return
 
