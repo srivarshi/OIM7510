@@ -332,10 +332,10 @@ def _(mo):
 
 @app.cell
 def _():
-    score = 50
-    if score >= 60:
+    score = 75
+    if score <= 80:
         print("Pass")
-    elif score >= 40:
+    elif score >= 95:
         print("A")
     return
 
@@ -354,7 +354,22 @@ def _(mo):
 
 
 @app.cell
-def _():
+def _(statuses):
+    n_shipped = 0
+    for status in statuses:
+        if status == "shipped":
+            n_shipped = n_shipped + 1
+    n_shipped
+    return
+
+
+@app.cell
+def _(statuses):
+    n_not_shipped = 0
+    for status in statuses:
+        if status != "shipped":
+            n_not_shipped = n_not_shipped + 1
+    n_not_shipped
     return
 
 
@@ -413,24 +428,22 @@ app._unparsable_cell(
 def _():
     statuses = ["shipped", "pending", "shipped", "cancelled", "shipped"]
     statuses
-    return
+    return (statuses,)
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+def _(statuses):
     n_shipped=0
     for status in statuses:
         if status == 'shipped':
             n_shipped +=1 # means n_shipped = n_shipped + 1 
 
         else:
-            n-not_shipped +=1
+            n_not_shipped +=1
 
     print(n_shipped)
     print(n_not_shipped)
-    """,
-    name="_"
-)
+    return
 
 
 @app.cell(hide_code=True)
@@ -457,8 +470,23 @@ def _(mo):
 @app.cell
 def _():
     order_lines = ["notebook", "pen"]
-    order_lines.append(["stapler", "tape"])
+    order_lines.extend(["stapler", "tape"])
     len(order_lines)
+
+    return (order_lines,)
+
+
+@app.cell
+def _(order_lines):
+    order_lines[2]
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Append always add the exactly one item to the list, even if that item is itself a list
+    """)
     return
 
 
@@ -489,6 +517,20 @@ def _():
     print(sorted(tickers))
     print(tickers.sort())
     tickers
+    return (tickers,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    I think tickers.sort has printed none, because ticker.sort does not have any value to print, it has sorted the list directly
+    """)
+    return
+
+
+@app.cell
+def _(tickers):
+    sorted(tickers, reverse=True)
     return
 
 
@@ -522,9 +564,23 @@ def _(mo):
 @app.cell
 def _():
     prices = [12.50, 8.00, 19.99]
-    sale_prices = prices
+    sale_prices = prices[:]
     sale_prices.append(4.99)
     prices
+    return prices, sale_prices
+
+
+@app.cell
+def _(prices, sale_prices):
+    prices is sale_prices
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    12.5,8.0,19.99.
+    """)
     return
 
 
