@@ -472,7 +472,6 @@ def _():
     order_lines = ["notebook", "pen"]
     order_lines.extend(["stapler", "tape"])
     len(order_lines)
-
     return (order_lines,)
 
 
@@ -676,6 +675,18 @@ def _(first_order):
     return
 
 
+@app.cell
+def _(first_order):
+    first_order["ShippedDate"]
+    return
+
+
+@app.cell
+def _(first_order):
+    first_order["ShipCity"]
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -689,6 +700,33 @@ def _(mo):
 
     Two of them fail, and both give the same kind of error. Add a cell and find out
     which, and what the message says. A `KeyError` names the key it could not find.
+    """)
+    return
+
+
+@app.cell
+def _(first_order):
+    first_order["Freight"]
+    return
+
+
+@app.cell
+def _(first_order):
+    first_order["freight"]
+
+    return
+
+
+@app.cell
+def _(first_order):
+    first_order[0]
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The last 2 cells gave an error because they are not defined in the above cells
     """)
     return
 
@@ -763,6 +801,14 @@ def _(orders):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    The above cell would give an output as value assigned to shipcountry at the order 0
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## ✏️ The Orders Table
 
     Each question is one of the moves from section 2, done to records.
@@ -782,6 +828,43 @@ def _(mo):
     return
 
 
+@app.cell
+def _(orders):
+    total_freight = 0
+    for order in orders:
+        total_freight = total_freight + order["Freight"]
+    total_freight
+    return
+
+
+@app.cell
+def _(orders):
+    def _():
+        n_not_shipped = 0
+        for order in orders:
+            if order ["ShippedDate"] is None:
+                n_not_shipped = n_not_shipped + 1
+        return n_not_shipped
+
+
+    _()
+    return
+
+
+@app.cell
+def _(orders):
+    def _():
+        biggest_order = orders[0]
+        for order in orders:
+            if order["Freight"] > biggest_order["Freight"]:
+                biggest_order = order
+        return biggest_order
+
+
+    _()
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -795,6 +878,41 @@ def _(mo):
 
     Then check it: if a row were what you just wrote, **how many rows would this table
     have?** Does that match 30?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    total_freight = 0 - this is telling the code to start at the value of total =0
+    for order in orders: - this is telling the code to look into a complete order in the orders section
+        total_freight = total_freight + order["Freight"] - This is telling to calculate the total freight value you already have, add the freight cost of the current order and save the new total back intot the total_freight
+    total_freight - You are printing the newest value of the total_freight
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    n_not_shipped = 0 - Asking it to start at zero
+    for order in orders: - Asking it to go through the order in the orders section one at a time
+        if order["ShippedDate"] is None: - If the shipped date in the order doesnot have any value, then
+            n_not_shipped = n_not_shipped + 1- this says increase the not shipped count by 1
+    n_not_shipped - After you complete all the orders, give me the total number of not shipped orders
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    biggest_order = orders[0] - It is telling to start to search for the biggest order from the 0th order and asssume the biggest order is order 0
+    for order in orders: - Start from the order within the orders section by one by one
+        if order["Freight"] > biggest_order["Freight"]: - If the current order's Freight is greater than the biggest_order's Freight found so far
+            biggest_order = order - Update the biggest order with that order number and repeat it for all the orders
+    biggest_order - This will show whichever order has the highest order value
     """)
     return
 
@@ -843,6 +961,45 @@ def _():
         {"Symbol": "TSLA", "Shares": 150, "Price": 255.70},
     ]
     portfolio
+
+    return (portfolio,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    for AAPL - It is 100*173.93 = 17,393
+    For MSFT - it is 15,976.5
+    for GOOG - It is 10,508.8
+    for AMZN - It is 23,866
+    for NVDA - It is 8214
+    for TSLA - It is 38,355
+
+    Total portfolio value would be 114,301.4Let me verify this calculation by summing all the position values:
+    - AAPL: 17,393
+    - MSFT: 15,976
+    - GOOG: 10,508
+    - AMZN: 23,866
+    - NVDA: 8,203.4
+    - TSLA: 38,355
+
+    Sum = 17,393 + 15,976 + 10,508 + 23,866 + 8,203.4 + 38,355 = **114,301.4**
+
+    This confirms the total portfolio value of **$114,301.40**.
+    """)
+    return
+
+
+@app.cell
+def _(portfolio):
+    total_value = 0
+    for stock in portfolio:
+        stock_value = stock["Shares"] * stock["Price"]
+        stock["Price"]
+        total_value = total_value + stock_value
+    stock_value
+    total_value
+
     return
 
 
