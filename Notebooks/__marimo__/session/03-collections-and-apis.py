@@ -464,6 +464,11 @@ def _(mo):
     return
 
 
+@app.cell
+def _():
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -475,6 +480,22 @@ def _(mo):
     2. Every customer who has ordered from you this year, each once
     3. The units sold of each product, looked up by product name
     4. One shipment's carrier, tracking number and ship date, which must not change once recorded
+    """)
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    1. List
+    2. Set
+    3. Dictionary
+    4. Tuple
     """)
     return
 
@@ -508,6 +529,27 @@ def _():
         ("TSLA", 150, 255.70),
     ]
     holdings
+    return (holdings,)
+
+
+@app.cell
+def _(holdings):
+    total_cost = 0
+    # use a for loop to iterate every stock to  get the share and price of every stock, then calculate the subtotal and add the subtotal to total_cost
+    for stock in holdings:
+        print(type(stock))
+        share = stock[1]
+        price = stock[2]
+        subtotal = share * price
+        total_cost += subtotal
+
+    total_cost
+
+    return
+
+
+@app.cell
+def _():
     return
 
 
@@ -608,6 +650,10 @@ def _(mo):
 @app.cell
 def _(babson_weather):
     babson_weather["current"]["temperature_2m"]
+    temp_fahrenheit = babson_weather["current"]["temperature_2m"]
+    temp_celsius = (temp_fahrenheit - 32) * 5 / 9
+    temp_celsius
+
     return
 
 
@@ -702,11 +748,32 @@ def _(mo):
     return
 
 
+@app.cell
+def _(babson_weather):
+    babson_weather["current"]["wind_speed_10m"]
+
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     **F · Another town.** Search for `Wellesley` the way the misspelled search did, with the correct spelling. Take the first place out of `results`, then its `latitude`, `longitude` and `admin1`. *Check yourself: latitude 42.29649, in Massachusetts.*
     """)
+    return
+
+
+@app.cell
+def _(requests):
+    def _():
+        misspelled_reply = requests.get(
+            "https://geocoding-api.open-meteo.com/v1/search?name=Wellesley&count=1",
+            timeout=10,
+        )
+        return misspelled_reply.status_code, misspelled_reply.json()
+
+
+    _()
     return
 
 
@@ -717,6 +784,20 @@ def _(mo):
 
     **Going further.** Use F's coordinates to ask for Wellesley's current temperature. Build the address with an f-string, so that changing the town changes the forecast.
     """)
+    return
+
+
+@app.cell
+def _(requests):
+    def _():
+        misspelled_reply = requests.get(
+            "https://geocoding-api.open-meteo.com/v1/search?name=Babson Park&count=1",
+            timeout=10,
+        )
+        return misspelled_reply.status_code, misspelled_reply.json()
+
+
+    _()
     return
 
 
