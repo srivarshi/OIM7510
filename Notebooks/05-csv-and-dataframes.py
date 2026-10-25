@@ -202,6 +202,20 @@ def _(mo):
 
 @app.cell
 def _(towns_from_file):
+    smallest_town = towns_from_file[0]
+    largest_town = towns_from_file[0]
+    for town in towns_from_file:
+        if int(town["population"]) < int(smallest_town["population"]):
+            smallest_town = town
+        if int(town["population"]) > int(largest_town["population"]):
+            largest_town = town
+
+    smallest_town["name"], smallest_town["population"], largest_town["name"], largest_town["population"]
+    return
+
+
+@app.cell
+def _(towns_from_file):
     #1
 
     million_dollar_counts = {}
@@ -336,6 +350,37 @@ def _(mo):
     return
 
 
+@app.cell
+def _(ma_counties, pl, town_table):
+    server_counties = pl.DataFrame(ma_counties)
+
+    polars_county_counts = (
+        town_table.group_by("county")
+        .agg(pl.len().alias("towns"))
+        .sort("towns", descending=True)
+    )
+    polars_county_counts
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The counts from town_table match the server's own county counts exactly Worcester 60, Middlesex 54, Essex 34, and all 14 counties agree. This confirms the CSV file captured every town correctly, with none missing or duplicated.
+    """)
+    return
+
+
+@app.cell
+def _(pl, town_table):
+    (
+        town_table.filter(pl.col("population") > 50_000)
+        .sort("average_single_family_bill_dollars", descending=True)
+        .head(5)
+    )
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -380,6 +425,51 @@ def _(mo):
     **Going further.** Write a SQL query of your own on `town_table`, and check its answer in polars.
     """)
     return
+
+
+app._unparsable_cell(
+    r"""
+    Raising the bar to $2,000,000 can only make each county's count go down or stay the same, never up since every town that qualifies at $2,000,000 must also have qualified at $1,000,000. I expected Middlesex to lose the most towns, since it had the highest count (14) at the $1,000,000 bar, meaning many of its towns likely sit between $1M and $2M. I expected Dukes and Nantucket, where every town already averaged $1,000,000 or more, to keep the towns that are truly high-value and lose any that fell below $2,000,000.
+
+
+    """,
+    name="_"
+)
+
+
+@app.cell
+def _(mo, town_table):
+    towns_over_2m = mo.sql(
+        f"""
+        SELECT county, COUNT(*) AS towns
+        FROM town_table
+        WHERE average_single_family_value_dollars >= 2000000
+        GROUP BY county
+        ORDER BY towns DESC
+        """
+    )
+    return
+
+
+@app.cell
+def _(pl, town_table):
+    (
+        town_table.filter(pl.col("average_single_family_value_dollars") >= 2_000_000)
+        .group_by("county")
+        .agg(pl.len().alias("towns"))
+        .sort("towns", descending=True)
+    )
+    return
+
+
+app._unparsable_cell(
+    r"""
+    Result: the actual counts were Dukes 2, Middlesex 2, Norfolk 2, and Nantucket 1 - 7 towns total, matching both the SQL and polars versions, and confirming that Middlesex dropped sharply from 14 to 2.
+
+
+    """,
+    name="_"
+)
 
 
 @app.cell(hide_code=True)
@@ -432,6 +522,18 @@ def _(mo):
 
     **Going further.** Color the bars or dots by a column with `color=`, and explain what the colors add.
     """)
+    return
+
+
+@app.cell
+def _(alt, mo, town_table):
+    mo.ui.altair_chart(
+        town_table.plot.point(
+            x=alt.X("population", title="Population"),
+            y=alt.Y("average_single_family_bill_dollars", title="Average Single-Family Tax Bill ($)"),
+            tooltip=["name", "population", "average_single_family_bill_dollars"],
+        ).properties(title="Larger towns tend to have higher average tax bills")
+    )
     return
 
 
