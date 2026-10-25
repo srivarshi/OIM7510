@@ -7,7 +7,7 @@ app = marimo.App(width="medium")
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Section 1 Question - C · Pick the Day#
+    ##Question - C · Pick the Day#
     A student club is planning an outdoor event somewhere in Massachusetts in the next week and needs to pick the day. The organizer wants a table of the next seven days, today included, whether each day meets the club's rules, and the best day, for whatever town they type in.
 
     The data is Open-Meteo, which needs no key: its geocoding search turns a place name into coordinates, and its forecast gives seven days ahead.
@@ -40,17 +40,19 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    PLAN -> Users - A student club organizing an outdoor event in Massachusetts. Problem - The club needs to identify a suitable day based on temparature, rain probability adn wind conditions. Output - A seven day weather comparision and a recommedation
+    ##PLAN
+    Users - A student club organizing an outdoor event in Massachusetts. Problem - The club needs to identify a suitable day based on temparature, rain probability adn wind conditions. Output - A seven day weather comparision and a recommedation
     """)
     return
 
 
-app._unparsable_cell(
-    r"""
-    Execution - The input should be the organizer can enter a Massachusetts town and weather limits, by using the Open Meteo's geocoding API we can find the town coordinates, which selects the forst match in Massachusetts. By using the forcast API to retrieve seven days of temparatures, rain probabilities and wind speeds. Present all this information as a record for each day and compare each days hight temparature, rain probability adn wind speed against the organizer limits. Values excalty at the limits should pass. Createa table showing the weather and whether each day qualifies. Among the qualifiying days, choose the lowest rain porbability, breaking ties with lower wind speed. If none qualify, choose a day breaking the fewest rukes, breaking ties by choosing the earlier date
-    """,
-    name="_"
-)
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ##Execution
+    The input should be the organizer can enter a Massachusetts town and weather limits, by using the Open Meteo's geocoding API we can find the town coordinates, which selects the forst match in Massachusetts. By using the forcast API to retrieve seven days of temparatures, rain probabilities and wind speeds. Present all this information as a record for each day and compare each days hight temparature, rain probability adn wind speed against the organizer limits. Values excalty at the limits should pass. Createa table showing the weather and whether each day qualifies. Among the qualifiying days, choose the lowest rain porbability, breaking ties with lower wind speed. If none qualify, choose a day breaking the fewest rukes, breaking ties by choosing the earlier date
+    """)
+    return
 
 
 @app.cell
@@ -63,34 +65,34 @@ def _():
 
 
 @app.cell(hide_code=True)
-def create_input_fields(mo):
+def _(mo):
     mo.md(r"""
-    **Create input Fields**
+    ##Create input Fields
     """)
     return
 
 
 @app.cell
 def _(mo):
-    place = mo.ui.text(value="Wellesley", label="Massachusetts town")
+    place = mo.ui.text(value="", label="Massachusetts town")
 
     lowest_high_f = mo.ui.number(
-        value=55,
+        value=89,
         label="Minimum high temperature (°F)"
     )
 
     highest_high_f = mo.ui.number(
-        value=80,
+        value=103,
         label="Maximum high temperature (°F)"
     )
 
     max_rain_chance = mo.ui.number(
-        value=30,
+        value=100,
         label="Maximum rain probability (%)"
     )
 
     max_wind_mph = mo.ui.number(
-        value=15,
+        value=50,
         label="Maximum wind speed (mph)"
     )
 
@@ -105,9 +107,9 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def find_the_town_s_coordinates(mo):
+def _(mo):
     mo.md(r"""
-    **Find the town’s coordinates**
+    ##Find the town’s coordinates
     """)
     return
 
@@ -150,9 +152,9 @@ def _(find_coordinates):
 
 
 @app.cell(hide_code=True)
-def fetch_the_seven_day_weather_forecast(mo):
+def _(mo):
     mo.md(r"""
-    **Fetch the seven-day weather forecast**
+    ##Fetch the seven-day weather forecast
     """)
     return
 
@@ -200,9 +202,9 @@ def _(get_forecast, test_location):
 
 
 @app.cell(hide_code=True)
-def organize_the_weather_into_daily_records(mo):
+def _(mo):
     mo.md(r"""
-    Organize the weather into daily records
+    ##Organize the weather into daily records
     """)
     return
 
@@ -230,9 +232,9 @@ def make_daily_records(forecast):
 
 
 @app.cell(hide_code=True)
-def check_whether_each_day_qualifies(mo):
+def _(mo):
     mo.md(r"""
-    **Check whether each day qualifies**
+    ##Check whether each day qualifies
     """)
     return
 
@@ -280,9 +282,9 @@ def _():
 
 
 @app.cell(hide_code=True)
-def __select_the_best_day__(mo):
+def _(mo):
     mo.md(r"""
-    **Select the best day**
+    ##Select the best day
     """)
     return
 
@@ -328,9 +330,9 @@ def choose_best_day(records):
 
 
 @app.cell(hide_code=True)
-def connect_all_the_functions(mo):
+def _(mo):
     mo.md(r"""
-    **Connect all the functions**
+    ##Connect all the functions
     """)
     return
 
@@ -377,9 +379,9 @@ def _(find_coordinates, get_forecast):
 
 
 @app.cell(hide_code=True)
-def display_the_final_results(mo):
+def _(mo):
     mo.md(r"""
-    **Display the final results**
+    ##Display the final results
     """)
     return
 
@@ -444,6 +446,59 @@ def _(
     )
     ])
     return (location,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Testing and Verification
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Wellesley: Verified that the tool retrieves seven days of weather.
+    Lexington: Verified that the correct Massachusetts location is selected.
+    Boundary test: Confirmed that values exactly at the limits pass.
+    No qualifying days: Confirmed that the program recommends the day breaking the fewest rules.
+    Interactive inputs: Verified that changing the town and weather limits updates the results.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ##Reflection
+    1. What I Built
+
+    I built an interactive weather recommendation tool for a student club organizing outdoor events in Massachusetts. The organizer can enter a town and set weather preferences, including temperature, rain probability, and wind speed. The tool retrieves a seven-day weather forecast, compares each day’s conditions against the requirements, and recommends the most suitable day.
+
+    2. How I Used AI
+
+    I first created my own plan explaining the problem, inputs, and expected output before using AI. After that, I used AI to help me write the Python functions and understand how to connect them. I also used AI to understand how to test the program, identify issues, and improve the final output. I tested the suggestions in Marimo to check whether they worked.
+
+    3. What I Learned
+
+    I learned how to use APIs to retrieve real-time data instead of manually entering information. I understood how dictionaries store information using keys and values, and how lists organize multiple weather measurements. I also learned how zip() combines separate lists of dates, temperatures, rain probabilities, and wind speeds into one record for each day.
+
+    Another important learning was how to use conditional statements to evaluate weather requirements and select the best day based on multiple rules.
+
+    4. How I Verified the Code
+
+    I initially tested the tool using Wellesley and checked whether it displayed seven days of weather and recommended a suitable date. I then changed the town to Lexington and verified that the location and weather forecast updated correctly.
+
+    One challenge I faced was that the results initially did not seem to update when I changed the input values. I had to understand how Marimo’s interactive inputs work and how changes in the input fields affect the final output. After testing the inputs and checking the results, I was able to verify that the program was responding correctly.
+
+    I also tested boundary conditions to confirm that values exactly at the limits would pass. Finally, I tested a scenario where none of the seven days qualified. The program still recommended a day by selecting the one that broke the fewest rules, using the earliest date to break ties.
+
+    5. What I Would Improve
+
+    If I had more time, I would compare weather forecasts from different sources to see how consistent the recommendations are. I would also explore adding a scoring system that rates each day out of 10 instead of only showing whether it passes or fails. This could help organizers compare days more easily, even when none meets all their requirements.
+    """)
+    return
 
 
 if __name__ == "__main__":
