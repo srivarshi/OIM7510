@@ -4,13 +4,6 @@ __generated_with = "0.24.2"
 app = marimo.App(width="medium")
 
 
-@app.cell
-def _():
-    import marimo as mo
-
-    return (mo,)
-
-
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -58,6 +51,376 @@ app._unparsable_cell(
     """,
     name="_"
 )
+
+
+@app.cell
+def _():
+    import marimo as mo
+    import requests
+    import pandas as pd
+
+    return mo, pd, requests
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Create input Fields
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    place = mo.ui.text(value="Wellesley", label="Massachusetts town")
+
+    lowest_high_f = mo.ui.number(
+        value=55,
+        label="Minimum high temperature (°F)"
+    )
+
+    highest_high_f = mo.ui.number(
+        value=80,
+        label="Maximum high temperature (°F)"
+    )
+
+    max_rain_chance = mo.ui.number(
+        value=30,
+        label="Maximum rain probability (%)"
+    )
+
+    max_wind_mph = mo.ui.number(
+        value=15,
+        label="Maximum wind speed (mph)"
+    )
+
+    mo.vstack([
+        place,
+        lowest_high_f,
+        highest_high_f,
+        max_rain_chance,
+        max_wind_mph
+    ])
+    return highest_high_f, lowest_high_f, max_rain_chance, max_wind_mph, place
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Find the town’s coordinates
+    """)
+    return
+
+
+@app.cell
+def _(requests):
+    def find_coordinates(town):
+        url = "https://geocoding-api.open-meteo.com/v1/search"
+
+        params = {
+            "name": town,
+            "count": 100,
+            "language": "en",
+            "format": "json"
+        }
+
+        response = requests.get(url, params=params, timeout=15)
+        response.raise_for_status()
+
+        data = response.json()
+
+        for location in data.get("results", []):
+            if (
+                location.get("admin1") == "Massachusetts"
+                and location.get("country_code") == "US"
+            ):
+                return location
+
+        return None
+
+    return (find_coordinates,)
+
+
+@app.cell
+def _(find_coordinates):
+    test_location = find_coordinates("Wellesley")
+
+    print(test_location)
+    return (test_location,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Fetch the seven-day weather forecast
+    """)
+    return
+
+
+@app.cell
+def _(requests):
+    def get_forecast(latitude, longitude):
+        url = "https://api.open-meteo.com/v1/forecast"
+
+        params = {
+            "latitude": latitude,
+            "longitude": longitude,
+            "daily": (
+                "temperature_2m_max,"
+                "temperature_2m_min,"
+                "precipitation_probability_max,"
+                "wind_speed_10m_max"
+            ),
+            "temperature_unit": "fahrenheit",
+            "wind_speed_unit": "mph",
+            "timezone": "America/New_York",
+            "forecast_days": 7
+        }
+
+        response = requests.get(url, params=params, timeout=15)
+        response.raise_for_status()
+
+        return response.json()["daily"]
+
+    return (get_forecast,)
+
+
+@app.cell
+def _(get_forecast, test_location):
+    test_forecast = get_forecast(
+
+        test_location["latitude"],
+
+        test_location["longitude"]
+
+    )
+
+    print(test_forecast)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Organize the weather into daily records
+    """)
+    return
+
+
+@app.function
+def make_daily_records(forecast):
+    records = []
+
+    for date, high, low, rain, wind in zip(
+        forecast["time"],
+        forecast["temperature_2m_max"],
+        forecast["temperature_2m_min"],
+        forecast["precipitation_probability_max"],
+        forecast["wind_speed_10m_max"]
+    ):
+        records.append({
+            "Date": date,
+            "High (°F)": high,
+            "Low (°F)": low,
+            "Rain (%)": rain,
+            "Wind (mph)": wind
+        })
+
+    return records
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Check whether each day qualifies
+    """)
+    return
+
+
+@app.function
+def check_weather(
+    records,
+    min_temp,
+    max_temp,
+    max_rain,
+    max_wind
+):
+    for day in records:
+        rules = [
+            min_temp <= day["High (°F)"],
+            day["High (°F)"] <= max_temp,
+            day["Rain (%)"] <= max_rain,
+            day["Wind (mph)"] <= max_wind
+        ]
+
+        day["Pass"] = all(rules)
+        day["Rules Broken"] = rules.count(False)
+
+    return records
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Select the best day
+    """)
+    return
+
+
+@app.function
+def choose_best_day(records):
+    qualifying_days = [
+        day for day in records
+        if day["Pass"]
+    ]
+
+    if qualifying_days:
+        best = min(
+            qualifying_days,
+            key=lambda day: (
+                day["Rain (%)"],
+                day["Wind (mph)"]
+            )
+        )
+
+        reason = (
+            "This day meets all weather requirements "
+            "and has the lowest rain probability, "
+            "with wind speed used to break ties."
+        )
+
+    else:
+        best = min(
+            records,
+            key=lambda day: (
+                day["Rules Broken"],
+                day["Date"]
+            )
+        )
+
+        reason = (
+            "No day meets all weather requirements. "
+            "This day breaks the fewest rules, "
+            "with the earlier date used to break ties."
+        )
+
+    return best, reason
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Connect all the functions
+    """)
+    return
+
+
+@app.cell
+def _(find_coordinates, get_forecast):
+    def run_weather_tool(
+        town,
+        min_temp,
+        max_temp,
+        max_rain,
+        max_wind
+    ):
+
+        location = find_coordinates(town)
+
+        if location is None:
+            raise ValueError(
+                f"No matching Massachusetts town: {town}"
+            )
+
+        forecast = get_forecast(
+            location["latitude"],
+            location["longitude"]
+        )
+
+        records = make_daily_records(forecast)
+
+        checked_records = check_weather(
+            records,
+            min_temp,
+            max_temp,
+            max_rain,
+            max_wind
+        )
+
+        best_day, reason = choose_best_day(
+            checked_records
+        )
+
+        return location, checked_records, best_day, reason
+
+    return (run_weather_tool,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Display the final results
+    """)
+    return
+
+
+@app.cell
+def _(location, mo):
+    mo.md(
+        f"**Selected location:** {location['name']}, "
+        f"{location['admin1']}, {location['country']}  \n"
+        f"**Latitude:** {location['latitude']}  \n"
+        f"**Longitude:** {location['longitude']}  \n"
+        f"**Population:** {location.get('population', 'Not available')}"
+    )
+    return
+
+
+@app.cell
+def _(
+    highest_high_f,
+    lowest_high_f,
+    max_rain_chance,
+    max_wind_mph,
+    mo,
+    pd,
+    place,
+    run_weather_tool,
+):
+    location, weather_records, best_day, reason = run_weather_tool(
+        place.value,
+        lowest_high_f.value,
+        highest_high_f.value,
+        max_rain_chance.value,
+        max_wind_mph.value
+    )
+
+    weather_table = pd.DataFrame(weather_records)
+
+    mo.vstack([
+        mo.md(
+            f"## Weather Forecast: {location['name']}, Massachusetts"
+        ),
+
+        mo.ui.table(
+            weather_table[
+                [
+                    "Date",
+                    "High (°F)",
+                    "Low (°F)",
+                    "Rain (%)",
+                    "Wind (mph)",
+                    "Pass"
+                ]
+            ]
+        ),
+
+        mo.md(
+            f"### Recommended Day: {best_day['Date']}\n\n"
+            f"{reason}"
+        )
+    ])
+    return (location,)
 
 
 if __name__ == "__main__":
