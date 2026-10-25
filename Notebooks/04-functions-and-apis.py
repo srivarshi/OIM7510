@@ -173,12 +173,60 @@ def _(mo):
     return
 
 
+@app.cell
+def _(holdings, retirement_holdings):
+    def count_shares(portfolio):
+        total_shares = 0
+        for symbol, shares, price in portfolio:
+            total_shares = total_shares + shares
+        return total_shares
+
+    count_shares(holdings), count_shares(retirement_holdings)
+    return
+
+
+@app.cell
+def _(holdings, retirement_holdings):
+    def find_largest(portfolio):
+        biggest_symbol = None
+        biggest_cost = 0
+        for symbol, shares, price in portfolio:
+            cost = shares * price
+            if cost > biggest_cost:
+                biggest_cost = cost
+                biggest_symbol = symbol
+        return biggest_symbol, biggest_cost
+
+    find_largest(holdings), find_largest(retirement_holdings)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ## ✏️ B · Without `return`
 
     Copy `count_shares` into a new cell under a new name, and put `print(...)` where the `return` was. Call it and keep the result in a name. In a markdown cell under it, answer: what does that name hold, and what could the next cell do with it?
+    """)
+    return
+
+
+@app.cell
+def _(holdings):
+    def print_shares(portfolio):
+        total_shares = 0
+        for symbol, shares, price in portfolio:
+            total_shares = total_shares + shares
+        print(total_shares)
+
+    result = print_shares(holdings)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    result holds None, because print_shares never uses return, it only displays the number, it doesn't hand it back. The next cell couldn't do any further math with result (like use it in another calculation), because there's nothing there.
     """)
     return
 
@@ -314,6 +362,17 @@ def _(mo):
     return
 
 
+@app.cell
+def _(requests):
+    top_income_towns = requests.get(
+        "https://oim.zhili.dev/ma/towns",
+        params={"county": "Norfolk", "sort": "income", "order": "desc", "per_page": 5},
+        timeout=10,
+    ).json()
+    top_income_towns
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -327,6 +386,38 @@ def _(mo):
 
     **Going further.** Write `town_history(name)`, which takes a town's name, makes both requests, and returns the history.
     """)
+    return
+
+
+@app.cell
+def _(requests, wellesley_dor_code):
+    wellesley_history = requests.get(
+        f"https://oim.zhili.dev/ma/towns/{wellesley_dor_code}/history",
+        params={"fiscal_year": 2026},
+        timeout=10,
+    ).json()
+    wellesley_history
+    return
+
+
+@app.cell
+def _(requests):
+    wellesley_reply = requests.get(
+        "https://oim.zhili.dev/ma/towns",
+        params={"name": "Wellesley"},
+        timeout=10,
+    ).json()
+    wellesley_dor_code = wellesley_reply["items"][0]["dor_code"]
+    wellesley_dor_code
+    return (wellesley_dor_code,)
+
+
+@app.cell
+def _():
+    average_value = 2020758
+    tax_rate = 10.17
+    check_bill = average_value * tax_rate / 1000
+    check_bill
     return
 
 
@@ -411,6 +502,21 @@ def _(mo):
     return
 
 
+@app.cell
+def _(get_page):
+    def get_all_towns():
+        first_page = get_page(1)
+        pages = first_page["pagination"]["pages"]
+        all_towns = first_page["items"]
+        for page_number in range(2, pages + 1):
+            all_towns.extend(get_page(page_number)["items"])
+        return all_towns
+
+    all_towns = get_all_towns()
+    len(all_towns)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -460,12 +566,46 @@ def _(mo):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The server answered 401, "Missing x-token header" it refused the post entirely. It needs to know who sent a message so it can show the right name on the board and so one student can't post as someone else.
+    """)
+    return
+
+
+@app.cell
+def _(sample_town_reply):
+    sample_town_reply
+    return
+
+
 @app.cell
 def _(requests):
+    sample_town_reply = requests.get(
+        "https://oim.zhili.dev/ma/towns",
+        params={"name": "Wellesley"},
+        timeout=10,
+    ).json()
+    sample_town_reply
+    return (sample_town_reply,)
+
+
+@app.cell
+def _(sample_town_reply):
+    sample_town = sample_town_reply["items"][0]
+    town_name = sample_town["name"]
+    town_bill = sample_town["average_single_family_bill_dollars"]
+    town_name, town_bill
+    return town_bill, town_name
+
+
+@app.cell
+def _(requests, town_bill, town_name):
     board_reply = requests.post(
         "https://oim.zhili.dev/message",
         headers={"x-token": "srivarshi"},
-        json={"message": "You are the best"},
+        json={"message": f"{town_name}: ${town_bill:,}"},
         timeout=10,
     )
     board_reply.status_code, board_reply.json()
@@ -473,7 +613,13 @@ def _(requests):
 
 
 @app.cell
-def _():
+def _(requests, town_bill, town_name):
+    no_header_reply = requests.post(
+        "https://oim.zhili.dev/message",
+        json={"message": f"{town_name}: ${town_bill:,}"},
+        timeout=10,
+    )
+    no_header_reply.status_code, no_header_reply.json()
     return
 
 
