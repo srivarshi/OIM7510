@@ -63,9 +63,9 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def create_input_fields(mo):
     mo.md(r"""
-    Create input Fields
+    **Create input Fields**
     """)
     return
 
@@ -105,9 +105,9 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def find_the_town_s_coordinates(mo):
     mo.md(r"""
-    Find the town’s coordinates
+    **Find the town’s coordinates**
     """)
     return
 
@@ -143,16 +143,16 @@ def _(requests):
 
 @app.cell
 def _(find_coordinates):
-    test_location = find_coordinates("Wellesley")
+    test_location = find_coordinates("Lexington")
 
     print(test_location)
     return (test_location,)
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def fetch_the_seven_day_weather_forecast(mo):
     mo.md(r"""
-    Fetch the seven-day weather forecast
+    **Fetch the seven-day weather forecast**
     """)
     return
 
@@ -200,7 +200,7 @@ def _(get_forecast, test_location):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def organize_the_weather_into_daily_records(mo):
     mo.md(r"""
     Organize the weather into daily records
     """)
@@ -230,9 +230,9 @@ def make_daily_records(forecast):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def check_whether_each_day_qualifies(mo):
     mo.md(r"""
-    Check whether each day qualifies
+    **Check whether each day qualifies**
     """)
     return
 
@@ -259,10 +259,30 @@ def check_weather(
     return records
 
 
+@app.cell
+def _():
+    boundary_test = [
+        {
+            "Date": "2026-10-25",
+            "High (°F)": 55,
+            "Low (°F)": 40,
+            "Rain (%)": 30,
+            "Wind (mph)": 15
+        }
+    ]
+
+    boundary_result = check_weather(
+        boundary_test, 55, 80, 30, 15
+    )
+
+    print("Boundary test:", boundary_result[0]["Pass"])
+    return
+
+
 @app.cell(hide_code=True)
-def _(mo):
+def __select_the_best_day__(mo):
     mo.md(r"""
-    Select the best day
+    **Select the best day**
     """)
     return
 
@@ -308,9 +328,9 @@ def choose_best_day(records):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def connect_all_the_functions(mo):
     mo.md(r"""
-    Connect all the functions
+    **Connect all the functions**
     """)
     return
 
@@ -357,9 +377,9 @@ def _(find_coordinates, get_forecast):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def display_the_final_results(mo):
     mo.md(r"""
-    Display the final results
+    **Display the final results**
     """)
     return
 
@@ -415,10 +435,13 @@ def _(
             ]
         ),
 
-        mo.md(
-            f"### Recommended Day: {best_day['Date']}\n\n"
-            f"{reason}"
-        )
+    mo.md(
+        f"### Recommended Day: {best_day['Date']}\n\n"
+        f"**High temperature:** {best_day['High (°F)']}°F  \n"
+        f"**Rain probability:** {best_day['Rain (%)']}%  \n"
+        f"**Wind speed:** {best_day['Wind (mph)']} mph  \n\n"
+        f"**Reason:** {reason}"
+    )
     ])
     return (location,)
 
