@@ -40,8 +40,22 @@
     {
       "id": "bkHC",
       "code_hash": "25d2d573f93e9f55d554c07682ea7f2d",
-      "outputs": [],
-      "console": []
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "enter the cost:  2110\nenter tax: 2312\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "lEQa",
@@ -52,7 +66,14 @@
     {
       "id": "PKri",
       "code_hash": "082cac750a4ad462d81ccccf15d4567d",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     },
     {
@@ -234,35 +255,14 @@
     {
       "id": "nHfw",
       "code_hash": "413f573172b95d2cba69850b5e98a1e1",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "application/json": "[\"shipped\", \"pending\", \"shipped\", \"cancelled\", \"shipped\"]"
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
       "id": "xXTn",
       "code_hash": "be3bd2da65979b30a79b321f3d9a9acc",
-      "outputs": [
-        {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "name 'n_not_shipped' is not defined. Did you mean: 'n_shipped'?",
-          "traceback": null
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stderr",
-          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">\"/var/folders/cp/qctzs1zx6hlf8sb3fm2hfsh40000gn/T/marimo_18713/__marimo__cell_xXTn_.py\"</span>, line <span class=\"m\">7</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">n_not_shipped</span> <span class=\"o\">+=</span><span class=\"mi\">1</span>\n<span class=\"w\">    </span><span class=\"pm\">^^^^^^^^^^^^^</span>\n<span class=\"gr\">NameError</span>: <span class=\"n\">name 'n_not_shipped' is not defined. Did you mean: 'n_shipped'?</span>\n</pre></div>\n</span>",
-          "mimetype": "application/vnd.marimo+traceback"
-        }
-      ]
+      "outputs": [],
+      "console": []
     },
     {
       "id": "AjVT",
@@ -279,45 +279,31 @@
     },
     {
       "id": "pHFh",
-      "code_hash": "98c56ec66fae960f88c15f92b4dcfc3e",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/html": "<pre class='text-xs'>4</pre>"
-          }
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "qWoZ",
-      "code_hash": "dc4562b11af0fc62ed5e1f1dc59956c4",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/html": "<pre class='text-xs'>&#x27;stapler&#x27;</pre>"
-          }
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "HCpj",
-      "code_hash": "c387d84db4951a942424cad7964d6472",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Append always add the exactly one item to the list, even if that item is itself a list </span></span>"
-          }
-        }
-      ],
+      "code_hash": "c85449df5aaeecfdcb957912380535a2",
+      "outputs": [],
       "console": []
     },
     {
       "id": "NCOB",
+      "code_hash": "dc4562b11af0fc62ed5e1f1dc59956c4",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "aqbW",
+      "code_hash": "9106c73150c2e344402fabed4aed7621",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Append always add the exactly one item to the list, even if that item is itself a list</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TRpd",
       "code_hash": "6935532a36f420a3c62570d37b41c982",
       "outputs": [
         {
@@ -330,27 +316,13 @@
       "console": []
     },
     {
-      "id": "aqbW",
+      "id": "TXez",
       "code_hash": "01a8d5269858a498482cb962fade9d87",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "application/json": "[\"AAPL\", \"MSFT\", \"NVDA\"]"
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "['AAPL', 'MSFT', 'NVDA']\nNone\n",
-          "mimetype": "text/plain"
-        }
-      ]
+      "outputs": [],
+      "console": []
     },
     {
-      "id": "LXhz",
+      "id": "dNNg",
       "code_hash": "42d526acb4670dd477b132265af805bd",
       "outputs": [
         {
@@ -363,20 +335,13 @@
       "console": []
     },
     {
-      "id": "CZXV",
+      "id": "yCnT",
       "code_hash": "976ab415ada8b578bfa5f54bec60eec0",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "application/json": "[\"NVDA\", \"MSFT\", \"AAPL\"]"
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
-      "id": "TRpd",
+      "id": "wlCL",
       "code_hash": "f405b348260f91aaa0a73e40c618af25",
       "outputs": [
         {
@@ -389,46 +354,32 @@
       "console": []
     },
     {
-      "id": "TXez",
+      "id": "kqZH",
       "code_hash": "fef8050147ab6b97e03e371500ce2207",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "application/json": "[\"text/plain+float:12.5\", \"text/plain+float:8.0\", \"text/plain+float:19.99\"]"
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
-      "id": "JKKl",
+      "id": "wAgl",
       "code_hash": "da56d086dd6116a545e315bc3806642d",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "rEll",
+      "code_hash": "afe50d4ef0b378f8d249d901763d300b",
       "outputs": [
         {
           "type": "data",
           "data": {
-            "text/html": "<pre class='text-xs'>False</pre>"
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">12.5,8.0,19.99.</span></span>"
           }
         }
       ],
       "console": []
     },
     {
-      "id": "AcMC",
-      "code_hash": "79434b8f46a4d0d7132d313f63cb288c",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">12.5,8.0,19.99. </span></span>"
-          }
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "dNNg",
+      "id": "dGlV",
       "code_hash": "8e5e2a59e9f4c3607fa0b5cb1f86f715",
       "outputs": [
         {
@@ -441,13 +392,13 @@
       "console": []
     },
     {
-      "id": "yCnT",
+      "id": "SdmI",
       "code_hash": "e22c9fe5df8633ecd9c695b5510cb87f",
       "outputs": [],
       "console": []
     },
     {
-      "id": "wlCL",
+      "id": "lgWD",
       "code_hash": "1d4cd33d87f69cef37de87f6bdd519ca",
       "outputs": [
         {
@@ -460,7 +411,7 @@
       "console": []
     },
     {
-      "id": "kqZH",
+      "id": "yOPj",
       "code_hash": "b9a8a3f558e3abd939892755cdb675a5",
       "outputs": [
         {
@@ -473,13 +424,20 @@
       "console": []
     },
     {
-      "id": "wAgl",
+      "id": "fwwy",
       "code_hash": "53f7fdf6f5abd48e8964538bd017999e",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/json": "{\"OrderID\": 10248, \"CustomerID\": \"VINET\", \"ShipCountry\": \"France\", \"ShipCity\": \"Reims\", \"OrderDate\": \"2016-07-04\", \"ShippedDate\": \"2016-07-16\", \"Freight\": \"text/plain+float:16.75\"}"
+          }
+        }
+      ],
       "console": []
     },
     {
-      "id": "rEll",
+      "id": "LJZf",
       "code_hash": "692b58e986493ab11653c79bccc2af34",
       "outputs": [
         {
@@ -492,13 +450,46 @@
       "console": []
     },
     {
-      "id": "dGlV",
+      "id": "urSm",
       "code_hash": "332446c7b3958fd46ca5386ebac32217",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>&#x27;France&#x27;</pre>"
+          }
+        }
+      ],
       "console": []
     },
     {
-      "id": "SdmI",
+      "id": "Utat",
+      "code_hash": "6e5bd10858397c5fc063a81de46277c6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>&#x27;2016-07-16&#x27;</pre>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PeQp",
+      "code_hash": "78b8c06bf0df86f21f7c7792278e24c1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>&#x27;Reims&#x27;</pre>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "jxvo",
       "code_hash": "b4c4fb6a4f42fd5d98b6b18739a03241",
       "outputs": [
         {
@@ -511,7 +502,73 @@
       "console": []
     },
     {
-      "id": "lgWD",
+      "id": "rvjX",
+      "code_hash": "2bfc2c56d92d1252dcea892b8285d87a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>16.75</pre>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "gwPd",
+      "code_hash": "8fc60334f129e2e9e437739c3e5e09e2",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "'freight'",
+          "traceback": null
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">\"/var/folders/cp/qctzs1zx6hlf8sb3fm2hfsh40000gn/T/marimo_56653/__marimo__cell_gwPd_.py\"</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">first_order</span><span class=\"p\">[</span><span class=\"s2\">\"freight\"</span><span class=\"p\">]</span>\n<span class=\"w\">    </span><span class=\"pm\">~~~~~~~~~~~^^^^^^^^^^^</span>\n<span class=\"gr\">KeyError</span>: <span class=\"n\">'freight'</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
+    },
+    {
+      "id": "MmdM",
+      "code_hash": "8c9992a7ee25d4caccd1bebf692690ee",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "0",
+          "traceback": null
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">\"/var/folders/cp/qctzs1zx6hlf8sb3fm2hfsh40000gn/T/marimo_56653/__marimo__cell_MmdM_.py\"</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">first_order</span><span class=\"p\">[</span><span class=\"mi\">0</span><span class=\"p\">]</span>\n<span class=\"w\">    </span><span class=\"pm\">~~~~~~~~~~~^^^</span>\n<span class=\"gr\">KeyError</span>: <span class=\"n\">0</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
+    },
+    {
+      "id": "oMeC",
+      "code_hash": "46c58a8dedc72876f00c97411ca35223",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">The last 2 cells gave an error because they are not defined in the above ce</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "mWxS",
       "code_hash": "0ed1e9cc210d89a44e791cc8866fac27",
       "outputs": [
         {
@@ -524,13 +581,20 @@
       "console": []
     },
     {
-      "id": "yOPj",
+      "id": "CcZR",
       "code_hash": "2e78ba09148c2840a0ce57701f538f5b",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>30</pre>"
+          }
+        }
+      ],
       "console": []
     },
     {
-      "id": "fwwy",
+      "id": "YWSi",
       "code_hash": "215e85cc1d798eb376e760e2e6876215",
       "outputs": [
         {
@@ -543,13 +607,33 @@
       "console": []
     },
     {
-      "id": "LJZf",
+      "id": "zlud",
       "code_hash": "56ae7cf264083e0936598623c21b783a",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>&#x27;France&#x27;</pre>"
+          }
+        }
+      ],
       "console": []
     },
     {
-      "id": "urSm",
+      "id": "pZEz",
+      "code_hash": "f61d2860566c5b8027ebba6a9baaa71f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">The above cell would give an output as value assigned to shipcountry at the order 0</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "tZnO",
       "code_hash": "362a604c80a321d2e4d5c0c5e80b4671",
       "outputs": [
         {
@@ -562,7 +646,46 @@
       "console": []
     },
     {
-      "id": "jxvo",
+      "id": "avEv",
+      "code_hash": "6e3ebd61a9cd554228dfe207af0acece",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>827.0</pre>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "eJdg",
+      "code_hash": "b03a0f55f45608b4ad4bdd34be66625c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>3</pre>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "QwHS",
+      "code_hash": "a02ed750462e8aa2b5c1234bdc2ca480",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/json": "{\"OrderID\": 10263, \"CustomerID\": \"ERNSH\", \"ShipCountry\": \"Austria\", \"ShipCity\": \"Graz\", \"OrderDate\": \"2016-07-23\", \"ShippedDate\": \"2016-07-31\", \"Freight\": \"text/plain+float:56.0\"}"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "xvXZ",
       "code_hash": "276567fb8e96c73de1480e5e345ad8c1",
       "outputs": [
         {
@@ -575,7 +698,46 @@
       "console": []
     },
     {
-      "id": "mWxS",
+      "id": "RdEs",
+      "code_hash": "2eb4108c9018a19bd17d0833b219a662",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">total_freight = 0 - this is telling the code to start at the value of total =0\nfor order in orders: - this is telling the code to look into a complete order in the orders section\n    total_freight = total_freight + order[\"Freight\"] - This is telling to calculate the total freight value you already have, add the freight cost of the current order and save the new total back intot the total_freight \ntotal_freight - You are printing the newest value of the total_freight</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qiyT",
+      "code_hash": "2341801db577ff6c56bd55b28a3068f0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">n_not_shipped = 0 - Asking it to start at zero\nfor order in orders: - Asking it to go through the order in the orders section one at a time\n    if order[\"ShippedDate\"] is None: - If the shipped date in the order doesnot have any value, then \n        n_not_shipped = n_not_shipped + 1- this says increase the not shipped count by 1\nn_not_shipped - After you complete all the orders, give me the total number of not shipped order</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ssKX",
+      "code_hash": "05ea654e5e5f5fea33d9d5d2c8d50fcc",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">biggest_order = orders[0] - It is telling to start to search for the biggest order from the 0th order and asssume the biggest order is order\nfor order in orders: - Start from the order within the orders section by one by one\n    if order[\"Freight\"] &gt; biggest_order[\"Freight\"]: - If the current order's Freight is greater than the biggest_order's Freight found so far\n        biggest_order = order - Update the biggest order with that order number and repeat it for all the orders\nbiggest_order - This will show whichever order has the highest order value</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "CLip",
       "code_hash": "1a951e63750454427afca99d94d5c044",
       "outputs": [
         {
@@ -588,7 +750,7 @@
       "console": []
     },
     {
-      "id": "CcZR",
+      "id": "YECM",
       "code_hash": "33f3e6ba51f144e4af890984773e0cfc",
       "outputs": [
         {
@@ -601,13 +763,53 @@
       "console": []
     },
     {
-      "id": "YWSi",
-      "code_hash": "ee04f5dc9b3e474ede5f3f883c3aa33e",
-      "outputs": [],
+      "id": "cEAS",
+      "code_hash": "1d8fb193adf647af6f9108d7237f5bc5",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "Unknown format code 'f' for object of type 'str'",
+          "traceback": null
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">\"/var/folders/cp/qctzs1zx6hlf8sb3fm2hfsh40000gn/T/marimo_56653/__marimo__cell_cEAS_.py\"</span>, line <span class=\"m\">11</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"sa\">f</span><span class=\"s2\">\"Total portfolio cost: $</span><span class=\"si\">{</span><span class=\"n\">total_cost</span><span class=\"si\">:</span><span class=\"s2\">.2f</span><span class=\"si\">}</span><span class=\"s2\">\"</span><span class=\"p\">)</span>\n<span class=\"w\">                                   </span><span class=\"pm\">^^^^^^^^^^^^^^^^</span>\n<span class=\"gr\">ValueError</span>: <span class=\"n\">Unknown format code 'f' for object of type 'str'</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
+    },
+    {
+      "id": "GDSn",
+      "code_hash": "a2bb3f9751385152f9219a64ee6a4626",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">for AAPL - It is 100*173.93 = 17,393\nFor MSFT - it is 15,976.5\nfor GOOG - It is 10,508.8\nfor AMZN - It is 23,866\nfor NVDA - It is 821\nfor TSLA - It is 38,355</span>\n<span class=\"paragraph\">Total portfolio value would be 114,301.4Let me verify this calculation by summing all the position values:</span>\n<ul>\n<li>AAPL: 17,393</li>\n<li>MSFT: 15,976</li>\n<li>GOOG: 10,508</li>\n<li>AMZN: 23,866</li>\n<li>NVDA: 8,203.4</li>\n<li>TSLA: 38,355</li>\n</ul>\n<span class=\"paragraph\">Sum = 17,393 + 15,976 + 10,508 + 23,866 + 8,203.4 + 38,355 = <strong>114,301.4</strong></span>\n<span class=\"paragraph\">This confirms the total portfolio value of <strong>$114,301.40</strong>.</span></span>"
+          }
+        }
+      ],
       "console": []
     },
     {
-      "id": "zlud",
+      "id": "zKDm",
+      "code_hash": "d34ddb55417e0a2926e17e3090cd3f7c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>116302.7</pre>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iXej",
       "code_hash": "d7c2e174de0e810f192e0ebcd5f38e05",
       "outputs": [
         {
@@ -620,13 +822,20 @@
       "console": []
     },
     {
-      "id": "tZnO",
+      "id": "EJmg",
       "code_hash": "84a6141f626588f299934afdd739184b",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>&#x27;/Users/sri/Documents/GitHub/data/portfolio.csv&#x27;</pre>"
+          }
+        }
+      ],
       "console": []
     },
     {
-      "id": "xvXZ",
+      "id": "UmEG",
       "code_hash": "d8cb88a4a782aa1a3abecba9ae2a81aa",
       "outputs": [
         {
@@ -639,7 +848,7 @@
       "console": []
     },
     {
-      "id": "CLip",
+      "id": "vEBW",
       "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
       "outputs": [
         {
