@@ -202,17 +202,33 @@ def _(closing_prices):
 
 @app.cell
 def _(closing_prices):
-    closing_prices["TSLA"]
+    closing_prices.get("TSLA")
     return
 
 
 @app.cell
 def _(closing_prices):
-    tickers_above_200 = []
+    def _():
+        tickers_above_200 = []
+        for ticker in closing_prices:
+            if closing_prices[ticker] > 200:
+                tickers_above_200.append(ticker)
+        return tickers_above_200
+
+
+    _()
+    return
+
+
+@app.cell
+def _(closing_prices):
+    highest_ticker = None
+    highest_price = 0
     for ticker in closing_prices:
-        if closing_prices[ticker] > 200:
-            tickers_above_200.append(ticker)
-    tickers_above_200
+        if closing_prices[ticker] > highest_price:
+            highest_price = closing_prices[ticker]
+            highest_ticker = ticker
+    highest_ticker
     return
 
 
@@ -257,6 +273,14 @@ def _(ship_countries):
     for country in ship_countries:
         country_counts[country] = country_counts.get(country, 0) + 1
     country_counts
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    France, Germany, and Brazil are tied for the most orders, with 4 each
+    """)
     return
 
 
@@ -328,22 +352,11 @@ def _(mo):
     return
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+def _(first_holding):
     first_symbol, *_ = first_holding
     first_symbol
-    for _field, _value in goog_quote.items():
-    """,
-    name="_"
-)
-
-
-app._unparsable_cell(
-    r"""
-    for _field, _value in goog_quote.items():
-    """,
-    name="_"
-)
+    return
 
 
 @app.cell(hide_code=True)
@@ -464,7 +477,7 @@ def _(mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _():
     return
 
@@ -534,22 +547,15 @@ def _():
 
 @app.cell
 def _(holdings):
-    total_cost = 0
-    # use a for loop to iterate every stock to  get the share and price of every stock, then calculate the subtotal and add the subtotal to total_cost
-    for stock in holdings:
-        print(type(stock))
-        share = stock[1]
-        price = stock[2]
-        subtotal = share * price
-        total_cost += subtotal
-
-    total_cost
-
-    return
+    def _():
+        total_cost = 0
+        # use a for loop to iterate every stock to  get the share and price of every stock, then calculate the subtotal and add the subtotal to total_costtotal_cost = 0
+        for _symbol, _shares, _price in holdings:
+            total_cost = total_cost + _shares * _price
+        return total_cost
 
 
-@app.cell
-def _():
+    _()
     return
 
 
@@ -653,7 +659,6 @@ def _(babson_weather):
     temp_fahrenheit = babson_weather["current"]["temperature_2m"]
     temp_celsius = (temp_fahrenheit - 32) * 5 / 9
     temp_celsius
-
     return
 
 
@@ -751,7 +756,14 @@ def _(mo):
 @app.cell
 def _(babson_weather):
     babson_weather["current"]["wind_speed_10m"]
+    return
 
+
+@app.cell
+def _(babson_weather):
+    wind_speed = babson_weather["current"]["wind_speed_10m"]
+    wind_unit = babson_weather["current_units"]["wind_speed_10m"]
+    print(f"The wind speed is {wind_speed} {wind_unit}.")
     return
 
 
@@ -798,6 +810,14 @@ def _(requests):
 
 
     _()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The first result for "Babson Park" is in Florida, not Massachusetts. Code that always takes `[0]` would have silently used the wrong location the Florida town, not the one near Babson College with no error or warning at all
+    """)
     return
 
 

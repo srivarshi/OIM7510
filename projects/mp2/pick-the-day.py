@@ -388,13 +388,13 @@ def _(mo):
 
 @app.cell
 def _(location, mo):
-    mo.md(
-        f"**Selected location:** {location['name']}, "
-        f"{location['admin1']}, {location['country']}  \n"
+    mo.md(f"""
+    **Selected location:** {location['name']}, "
+        f{location['admin1']}, {location['country']}  \n"
         f"**Latitude:** {location['latitude']}  \n"
         f"**Longitude:** {location['longitude']}  \n"
-        f"**Population:** {location.get('population', 'Not available')}"
-    )
+        f"**Population:** {location.get('population', 'Not available')}
+    """)
     return
 
 
