@@ -135,19 +135,30 @@ def _(mo):
 
 @app.cell
 def _():
-    def _():
-        # Your inputs.
-        starting_stock = 60
-        order_quantity = 100
-        lead_time_days = 3
-        reorder_points = [20, 30, 40, 50]
-        daily_demand = [12, 15, 9, 14, 18, 11, 10, 16, 13, 17, 8, 12, 20, 14, 11,
-                        9, 15, 13, 16, 12, 10, 14, 19, 11, 13, 15, 9, 12, 17, 14]
-        return
+    starting_stock = 60
 
+    order_quantity = 100
 
-    _()
-    return
+    lead_time_days = 3
+
+    reorder_points = [20, 30, 40, 50]
+
+    daily_demand = [
+
+        12, 15, 9, 14, 18, 11, 10, 16, 13, 17,
+
+        8, 12, 20, 14, 11, 9, 15, 13, 16, 12,
+
+        10, 14, 19, 11, 13, 15, 9, 12, 17, 14
+
+    ]
+    return (
+        daily_demand,
+        lead_time_days,
+        order_quantity,
+        reorder_points,
+        starting_stock,
+    )
 
 
 @app.cell(hide_code=True)
@@ -161,65 +172,60 @@ def _(mo):
 
 
 @app.cell
-def _():
-    starting_stock = 60
-    order_quantity = 100
-    lead_time_days = 3
-    reorder_points = [20, 30, 40, 50]
-    daily_demand = [12, 15, 9, 14, 18, 11, 10, 16, 13, 17, 8, 12, 20, 14, 11,
-                    9, 15, 13, 16, 12, 10, 14, 19, 11, 13, 15, 9, 12, 17, 14]
-
+def _(daily_demand, lead_time_days, order_quantity, starting_stock):
     def simulate(reorder_point):
 
         stock = starting_stock
         orders = []
-
         results = []
 
-        for day in range(1, 31):
+        for day in range(1, len(daily_demand) + 1):
 
             # 1. Check if an order arrives today
             arrived = 0
+
             for order in orders:
                 if order["arrival_day"] == day:
-                    arrived = arrived + order["quantity"]
-            stock = stock + arrived
+                    arrived += order["quantity"]
 
-            # Starting stock after today's delivery arrives
+            stock += arrived
+
+            # Starting stock after delivery
             start_stock = stock
 
             # 2. Get today's demand
-
             demand = daily_demand[day - 1]
 
             # 3. Sell as much as possible
-
             if stock >= demand:
                 sold = demand
                 lost = 0
             else:
                 sold = stock
                 lost = demand - stock
-            stock = stock - sold
+
+            stock -= sold
             ending_stock = stock
 
-            # 4. Calculate stock already ordered but not delivered
-
+            # 4. Calculate outstanding orders
             outstanding = 0
+
             for order in orders:
                 if order["arrival_day"] > day:
-                    outstanding = outstanding + order["quantity"]
+                    outstanding += order["quantity"]
 
-            # 5. Decide whether to place a new order
-
+            # 5. Decide whether to reorder
             units_ordered = 0
             inventory_position = ending_stock + outstanding
+
             if inventory_position <= reorder_point:
                 units_ordered = order_quantity
+
                 new_order = {
                     "arrival_day": day + lead_time_days,
                     "quantity": order_quantity
                 }
+
                 orders.append(new_order)
 
             # 6. Save today's results
@@ -233,53 +239,94 @@ def _():
                 "ending_stock": ending_stock,
                 "units_ordered": units_ordered
             })
+
         return results
 
-    return reorder_points, simulate
+    return (simulate,)
+
+
+@app.cell
+def _(simulate):
+    len(simulate(40))
+    return
 
 
 @app.cell
 def _(simulate):
     results = simulate(40)
 
-    print("Day | Start | Arrived | Demand | Sold | Lost | Ending | Ordered")
+    print(f"{'Day':>3} {'Start':>6} {'Arrived':>8} {'Demand':>7} {'Sold':>6} {'Lost':>6} {'Ending':>8} {'Ordered':>8}")
+
+    print("-" * 65)
 
     for row in results:
 
-        print(row)
+        print(
+
+            f"{row['day']:>3} "
+
+            f"{row['starting_stock']:>6} "
+
+            f"{row['arrived']:>8} "
+
+            f"{row['demand']:>7} "
+
+            f"{row['sold']:>6} "
+
+            f"{row['lost']:>6} "
+
+            f"{row['ending_stock']:>8} "
+
+            f"{row['units_ordered']:>8}"
+
+        )
     return
 
 
 @app.cell
 def _(reorder_points, simulate):
     def _():
-        print("Reorder | Units Lost | Lost Days | Orders | Avg Ending Stock")
-        for reorder_point in reorder_points:
-            results = simulate(reorder_point)
-            units_lost = 0
-            lost_days = 0
-            orders_placed = 0
-            total_ending_stock = 0
-            for row in results:
-                # Add lost units
-                units_lost = units_lost + row["lost"]
-                # Count days with lost sales
-                if row["lost"] > 0:
-                    lost_days = lost_days + 1
-                # Count orders placed
-                if row["units_ordered"] > 0:
-                    orders_placed = orders_placed + 1
-                # Add ending stock
-                total_ending_stock = total_ending_stock + row["ending_stock"]
-            # Calculate average ending stock
-            average_stock = total_ending_stock / 30
-        return print(
-                reorder_point,
-                "|", units_lost,
-                "|", lost_days,
-                "|", orders_placed,
-                "|", round(average_stock, 2)
+        print(
+            f"{'Reorder':>8} "
+            f"{'Units Lost':>12} "
+            f"{'Lost Days':>10} "
+            f"{'Orders':>8} "
+            f"{'Avg Ending Stock':>18}"
+        )
+
+        print("-" * 65)
+
+        for _reorder_point in reorder_points:
+
+            _results = simulate(_reorder_point)
+
+            _units_lost = 0
+            _lost_days = 0
+            _orders_placed = 0
+            _total_ending_stock = 0
+
+            for _row in _results:
+
+                _units_lost += _row["lost"]
+
+                if _row["lost"] > 0:
+                    _lost_days += 1
+
+                if _row["units_ordered"] > 0:
+                    _orders_placed += 1
+
+                _total_ending_stock += _row["ending_stock"]
+
+            _average_stock = _total_ending_stock / len(_results)
+
+            print(
+                f"{_reorder_point:>8} "
+                f"{_units_lost:>12} "
+                f"{_lost_days:>10} "
+                f"{_orders_placed:>8} "
+                f"{_average_stock:>18.2f}"
             )
+
     _()
     return
 
@@ -297,23 +344,50 @@ def _(mo):
 @app.cell
 def _(reorder_points, simulate):
     def _():
-        print(f"{'Reorder Point':<15} {'Units Lost':<12} {'Lost Days':<12} {'Orders':<10} {'Avg Stock':<12}")
-        for reorder_point in reorder_points:
-            results = simulate(reorder_point)
-            units_lost = 0
-            lost_days = 0
-            orders_placed = 0
-            total_ending_stock = 0
-            for row in results:
-                units_lost += row["lost"]
-                if row["lost"] > 0:
-                    lost_days += 1
-                if row["units_ordered"] > 0:
-                    orders_placed += 1
-                total_ending_stock += row["ending_stock"]
-            average_stock = total_ending_stock / 30
-        return print(f"{reorder_point:<15} {units_lost:<12} {lost_days:<12} {orders_placed:<10} {average_stock:<12.2f}")
+        print(
+            f"{'Reorder':>8} {'Units Lost':>12} "
+            f"{'Lost Days':>10} {'Orders':>8} {'Avg Ending Stock':>18}"
+        )
+        print("-" * 65)
+
+        for _reorder_point in reorder_points:
+            _results = simulate(_reorder_point)
+
+            _units_lost = 0
+            _lost_days = 0
+            _orders_placed = 0
+            _total_ending_stock = 0
+
+            for _row in _results:
+                _units_lost += _row["lost"]
+
+                if _row["lost"] > 0:
+                    _lost_days += 1
+
+                if _row["units_ordered"] > 0:
+                    _orders_placed += 1
+
+                _total_ending_stock += _row["ending_stock"]
+
+            _average_stock = _total_ending_stock / len(_results)
+
+            print(
+                f"{_reorder_point:>8} "
+                f"{_units_lost:>12} "
+                f"{_lost_days:>10} "
+                f"{_orders_placed:>8} "
+                f"{_average_stock:>18.2f}"
+            )
+
     _()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    I recommend a reorder point of 40 cartons because it prevents all lost sales over the 30-day period while maintaining an average ending stock of 48.43 cartons, compared with 58.40 cartons at a reorder point of 50, with both options requiring four orders.
+    """)
     return
 
 
@@ -336,7 +410,34 @@ def _(mo):
 
 
 @app.cell
-def _():
+def _(simulate):
+    def _():
+
+        _results = simulate(40)
+
+        _total_demand = sum(row["demand"] for row in _results)
+
+        _total_sold = sum(row["sold"] for row in _results)
+
+        _total_lost = sum(row["lost"] for row in _results)
+
+        print("Total demand:", _total_demand)
+
+        print("Total sold + lost:", _total_sold + _total_lost)
+
+        assert _total_demand == _total_sold + _total_lost
+
+        print("Verification passed!")
+
+    _()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    I verified my simulation by checking that total customer demand equals the sum of cartons sold and cartons lost. Both totals matched, confirming that the simulation accounts for every carton requested over the 30-day period.
+    """)
     return
 
 
