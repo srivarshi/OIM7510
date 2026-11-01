@@ -61,7 +61,7 @@ def _():
     import requests
     import pandas as pd
 
-    return mo, pd, requests
+    return mo, requests
 
 
 @app.cell(hide_code=True)
@@ -77,12 +77,12 @@ def _(mo):
     place = mo.ui.text(value="", label="Massachusetts town")
 
     lowest_high_f = mo.ui.number(
-        value=89,
+        value=55,
         label="Minimum high temperature (°F)"
     )
 
     highest_high_f = mo.ui.number(
-        value=103,
+        value=80,
         label="Maximum high temperature (°F)"
     )
 
@@ -116,7 +116,7 @@ def _(mo):
 
 @app.cell
 def _(requests):
-    def find_coordinates(town):
+    def find_coordinates(town, state_name):
         url = "https://geocoding-api.open-meteo.com/v1/search"
 
         params = {
@@ -133,7 +133,7 @@ def _(requests):
 
         for location in data.get("results", []):
             if (
-                location.get("admin1") == "Massachusetts"
+                location.get("admin1") == state_name
                 and location.get("country_code") == "US"
             ):
                 return location
@@ -145,7 +145,7 @@ def _(requests):
 
 @app.cell
 def _(find_coordinates):
-    test_location = find_coordinates("Lexington")
+    test_location = find_coordinates("Lexington", "Massachusetts")
 
     print(test_location)
     return (test_location,)
@@ -291,34 +291,49 @@ def _(mo):
 
 @app.function
 def choose_best_day(records):
-    qualifying_days = [
-        day for day in records
-        if day["Pass"]
-    ]
 
-    if qualifying_days:
-        best = min(
-            qualifying_days,
-            key=lambda day: (
-                day["Rain (%)"],
-                day["Wind (mph)"]
-            )
-        )
+    best = None
+    reason = ""
 
+    # First, find the best qualifying day
+    for day in records:
+
+        if day["Pass"]:
+
+            if best is None:
+                best = day
+
+            elif day["Rain (%)"] < best["Rain (%)"]:
+                best = day
+
+            elif (
+                day["Rain (%)"] == best["Rain (%)"]
+                and day["Wind (mph)"] < best["Wind (mph)"]
+            ):
+                best = day
+
+    if best is not None:
         reason = (
             "This day meets all weather requirements "
             "and has the lowest rain probability, "
-            "with wind speed used to break ties."
+            "with lower wind speed used to break ties."
         )
 
     else:
-        best = min(
-            records,
-            key=lambda day: (
-                day["Rules Broken"],
-                day["Date"]
-            )
-        )
+        # If no days qualify, find the day breaking the fewest rules
+        for day in records:
+
+            if best is None:
+                best = day
+
+            elif day["Rules Broken"] < best["Rules Broken"]:
+                best = day
+
+            elif (
+                day["Rules Broken"] == best["Rules Broken"]
+                and day["Date"] < best["Date"]
+            ):
+                best = day
 
         reason = (
             "No day meets all weather requirements. "
@@ -339,15 +354,9 @@ def _(mo):
 
 @app.cell
 def _(find_coordinates, get_forecast):
-    def run_weather_tool(
-        town,
-        min_temp,
-        max_temp,
-        max_rain,
-        max_wind
-    ):
+    def run_weather_tool(town, min_temp, max_temp, max_rain, max_wind):
 
-        location = find_coordinates(town)
+        location = find_coordinates(town, "Massachusetts")
 
         if location is None:
             raise ValueError(
@@ -369,9 +378,7 @@ def _(find_coordinates, get_forecast):
             max_wind
         )
 
-        best_day, reason = choose_best_day(
-            checked_records
-        )
+        best_day, reason = choose_best_day(checked_records)
 
         return location, checked_records, best_day, reason
 
@@ -391,9 +398,9 @@ def _(location, mo):
     mo.md(f"""
     **Selected location:** {location['name']}, "
         f{location['admin1']}, {location['country']}  \n"
-        f"**Latitude:** {location['latitude']}  \n"
-        f"**Longitude:** {location['longitude']}  \n"
-        f"**Population:** {location.get('population', 'Not available')}
+        "**Latitude:** {location['latitude']}  \n"
+        "**Longitude:** {location['longitude']}  \n"
+        "**Population:** {location.get('population', 'Not available')}
     """)
     return
 
@@ -404,8 +411,6 @@ def _(
     lowest_high_f,
     max_rain_chance,
     max_wind_mph,
-    mo,
-    pd,
     place,
     run_weather_tool,
 ):
@@ -417,35 +422,177 @@ def _(
         max_wind_mph.value
     )
 
-    weather_table = pd.DataFrame(weather_records)
+    print(f"\nWeather Forecast: {location['name']}, {location['admin1']}")
+    print("=" * 78)
 
-    mo.vstack([
-        mo.md(
-            f"## Weather Forecast: {location['name']}, Massachusetts"
-        ),
-
-        mo.ui.table(
-            weather_table[
-                [
-                    "Date",
-                    "High (°F)",
-                    "Low (°F)",
-                    "Rain (%)",
-                    "Wind (mph)",
-                    "Pass"
-                ]
-            ]
-        ),
-
-    mo.md(
-        f"### Recommended Day: {best_day['Date']}\n\n"
-        f"**High temperature:** {best_day['High (°F)']}°F  \n"
-        f"**Rain probability:** {best_day['Rain (%)']}%  \n"
-        f"**Wind speed:** {best_day['Wind (mph)']} mph  \n\n"
-        f"**Reason:** {reason}"
+    print(
+        f"{'Date':<14}"
+        f"{'High (°F)':>11}"
+        f"{'Low (°F)':>11}"
+        f"{'Rain (%)':>12}"
+        f"{'Wind (mph)':>14}"
+        f"{'Pass':>10}"
     )
-    ])
-    return (location,)
+
+    print("-" * 78)
+
+    for day in weather_records:
+        print(
+            f"{day['Date']:<14}"
+            f"{day['High (°F)']:>11.1f}"
+            f"{day['Low (°F)']:>11.1f}"
+            f"{day['Rain (%)']:>12}"
+            f"{day['Wind (mph)']:>14.1f}"
+            f"{str(day['Pass']):>10}"
+        )
+
+    print("=" * 78)
+
+    print(f"\nRecommended Day: {best_day['Date']}")
+    print(f"High Temperature: {best_day['High (°F)']}°F")
+    print(f"Rain Probability: {best_day['Rain (%)']}%")
+    print(f"Wind Speed: {best_day['Wind (mph)']} mph")
+    print(f"Reason: {reason}")
+    return location, weather_records
+
+
+@app.cell
+def _(place, requests):
+    import json
+
+    geocoding_response = requests.get(
+        "https://geocoding-api.open-meteo.com/v1/search",
+        params={"name": place.value, "count": 100, "language": "en", "format": "json"},
+        timeout=15
+    )
+    geocoding_data = geocoding_response.json()
+
+    with open("projects/mp2/data/geocoding_raw.json", "w") as file:
+        json.dump(geocoding_data, file, indent=2)
+    return (json,)
+
+
+@app.cell
+def _(json, location, requests):
+    def _():
+        forecast_response = requests.get(
+            "https://api.open-meteo.com/v1/forecast",
+            params={
+                "latitude": location["latitude"],
+                "longitude": location["longitude"],
+                "daily": "temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max",
+                "temperature_unit": "fahrenheit",
+                "wind_speed_unit": "mph",
+                "timezone": "America/New_York",
+                "forecast_days": 7
+            },
+            timeout=15
+        )
+        forecast_data = forecast_response.json()
+
+        with open("projects/mp2/data/forecast_raw.json", "w") as file:
+            return json.dump(forecast_data, file, indent=2)
+
+    _()
+    return
+
+
+@app.cell
+def _(weather_records):
+    def _():
+        import csv
+        from pathlib import Path
+
+        data_folder = Path("projects/mp2/data")
+        data_folder.mkdir(parents=True, exist_ok=True)
+
+        with open(data_folder / "forecast_raw.csv", "w", newline="") as file:
+
+            writer = csv.writer(file)
+
+            writer.writerow([
+                "Date",
+                "High (°F)",
+                "Low (°F)",
+                "Rain (%)",
+                "Wind (mph)"
+            ])
+
+            for day in weather_records:
+                writer.writerow([
+                    day["Date"],
+                    day["High (°F)"],
+                    day["Low (°F)"],
+                    day["Rain (%)"],
+                    day["Wind (mph)"]
+                ])
+        return print("forecast_raw.csv saved successfully!")
+
+
+    _()
+    return
+
+
+@app.cell
+def _(location, weather_records):
+    def _():
+        import csv
+        from pathlib import Path
+
+        data_folder = Path("projects/mp2/data")
+        data_folder.mkdir(parents=True, exist_ok=True)
+
+        with open(data_folder / "weather_forecast.csv", "w", newline="") as file:
+
+            writer = csv.writer(file)
+
+            writer.writerow([
+                "Date",
+                "High (°F)",
+                "Low (°F)",
+                "Rain (%)",
+                "Wind (mph)",
+                "Pass",
+                "Rules Broken",
+                "Town",
+                "Latitude",
+                "Longitude"
+            ])
+
+            for day in weather_records:
+                writer.writerow([
+                    day["Date"],
+                    day["High (°F)"],
+                    day["Low (°F)"],
+                    day["Rain (%)"],
+                    day["Wind (mph)"],
+                    day["Pass"],
+                    day["Rules Broken"],
+                    location["name"],
+                    location["latitude"],
+                    location["longitude"]
+                ])
+        return print("Updated weather_forecast.csv successfully!")
+
+
+    _()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Functions explanations - find_coordinates(town) - it's called like find_coordinates("Lexington"). Inside, it asks the API for up to 100 matching places, turns the reply into data, then loops through data["results"] a list of records checking each one's admin1 (state) and country_code fields. The moment it finds a Massachusetts match, return location immediately stops the loop and hands that one record back as the function's output. If none match, it returns None instead.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    check_weather(records, min_temp, max_temp, max_rain, max_wind) - Called like check_weather(records, 55, 80, 30, 15). For each day (a record) in your list records, it builds rules a list of four True/False values, one per condition. all(rules) is True only if every item in the list is True, so day["Pass"] becomes a new field added to that record. rules.count(False) counts how many conditions failed. Since lists hold the same object (not a copy), modifying day inside the loop changes the original record, so return records hands back the same list, now with "Pass" and "Rules Broken" added to every day.
+    """)
+    return
 
 
 @app.cell(hide_code=True)
