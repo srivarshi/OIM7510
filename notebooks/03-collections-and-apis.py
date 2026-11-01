@@ -223,11 +223,17 @@ def _(closing_prices):
 @app.cell
 def _(closing_prices):
     highest_ticker = None
+
     highest_price = 0
-    for ticker in closing_prices:
-        if closing_prices[ticker] > highest_price:
-            highest_price = closing_prices[ticker]
-            highest_ticker = ticker
+
+    for _ticker, _price in closing_prices.items():
+
+        if _price > highest_price:
+
+            highest_price = _price
+
+            highest_ticker = _ticker
+
     highest_ticker
     return
 
@@ -279,7 +285,7 @@ def _(ship_countries):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    France has the most orders, with 4
+    France, Germany, Brazil, and the USA are tied for the highest number of orders, with 4 orders each.
     """)
     return
 
@@ -356,7 +362,6 @@ def _(mo):
 def _(first_holding):
     first_symbol, *_ = first_holding
     first_symbol
-
     return
 
 
@@ -506,10 +511,10 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    1. List
-    2. Set
-    3. Dictionary
-    4. Tuple
+    1. List: Order lines can be added, removed, and rearranged.
+    2. Set: Each customer appears only once, avoiding duplicates.
+    3. Dictionary: Units sold can be looked up using the product name as the key.
+    4. Tuple: Shipment details should remain unchanged after being recorded
     """)
     return
 
@@ -589,6 +594,14 @@ def _():
         ("2026-08-12", "AAPL", "sell", 40, 250.00),
     ]
     year_trades
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    I would prefer a list of tuples for calculating the total portfolio cost because each holding has three fixed values: ticker, shares, and price. Tuples allow me to unpack these values directly in a loop, making the calculation straightforward. However, a list of dictionaries would be easier to understand when working with more complex data because each field has a descriptive name.
+    """)
     return
 
 
