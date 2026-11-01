@@ -164,9 +164,23 @@
     },
     {
       "id": "TqIu",
-      "code_hash": "4bf365745aef5a205a4742decc86a137",
-      "outputs": [],
-      "console": []
+      "code_hash": "785874eb920848005f33fc95a0fcb452",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "A\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "Vxnm",
@@ -179,18 +193,6 @@
           }
         }
       ],
-      "console": []
-    },
-    {
-      "id": "DnEU",
-      "code_hash": "48b325c6e5206582634ebea4031e315a",
-      "outputs": [],
-      "console": []
-    },
-    {
-      "id": "ulZA",
-      "code_hash": "0c34a3a4d999426cbb58e2f1d0cc4849",
-      "outputs": [],
       "console": []
     },
     {
@@ -234,13 +236,53 @@
     {
       "id": "nHfw",
       "code_hash": "413f573172b95d2cba69850b5e98a1e1",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/json": "[\"shipped\", \"pending\", \"shipped\", \"cancelled\", \"shipped\"]"
+          }
+        }
+      ],
       "console": []
     },
     {
-      "id": "xXTn",
-      "code_hash": "be3bd2da65979b30a79b321f3d9a9acc",
-      "outputs": [],
+      "id": "dBNM",
+      "code_hash": "4ade388197b457f279420415c8f3a017",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>3</pre>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "GPsv",
+      "code_hash": "9cdf0b69ee11de6c42faaf97699ba364",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>2</pre>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lnQR",
+      "code_hash": "52e325f0eff512f7ae17c3788d4dfc6c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>60.0</pre>"
+          }
+        }
+      ],
       "console": []
     },
     {
@@ -270,12 +312,12 @@
     },
     {
       "id": "aqbW",
-      "code_hash": "9106c73150c2e344402fabed4aed7621",
+      "code_hash": "36c7e6940c32969ca76e2885cb4432d4",
       "outputs": [
         {
           "type": "data",
           "data": {
-            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Append always add the exactly one item to the list, even if that item is itself a list</span></span>"
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">The append() method always adds exactly one item to a list, even if that item is another list.</span></span>"
           }
         }
       ],
@@ -346,12 +388,12 @@
     },
     {
       "id": "rEll",
-      "code_hash": "afe50d4ef0b378f8d249d901763d300b",
+      "code_hash": "aa1189e634052743e43b3d3c41716c80",
       "outputs": [
         {
           "type": "data",
           "data": {
-            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">12.5,8.0,19.99.</span></span>"
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">I would want two names to refer to the same list when I intentionally want changes made through either name to update the same data. This is useful when different parts of a program need to work with the same list.</span></span>"
           }
         }
       ],
@@ -703,7 +745,14 @@
     {
       "id": "VCRE",
       "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     }
   ]
