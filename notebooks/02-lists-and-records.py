@@ -332,11 +332,14 @@ def _(mo):
 
 @app.cell
 def _():
-    score = 75
-    if score <= 80:
-        print("Pass")
-    elif score >= 95:
+    score = 95
+
+    if score >= 90:
         print("A")
+    elif score >= 60:
+        print("Pass")
+    else:
+        print("Fail")
     return
 
 
@@ -350,26 +353,6 @@ def _(mo):
     Add a third cell that prints the percentage that shipped. It is the count divided by len(statuses), times 100.
     Expected: 3, then 2, then 60.0.
     """)
-    return
-
-
-@app.cell
-def _(statuses):
-    n_shipped = 0
-    for status in statuses:
-        if status == "shipped":
-            n_shipped = n_shipped + 1
-    n_shipped
-    return
-
-
-@app.cell
-def _(statuses):
-    n_not_shipped = 0
-    for status in statuses:
-        if status != "shipped":
-            n_not_shipped = n_not_shipped + 1
-    n_not_shipped
     return
 
 
@@ -433,16 +416,37 @@ def _():
 
 @app.cell
 def _(statuses):
-    n_shipped=0
-    for status in statuses:
-        if status == 'shipped':
-            n_shipped +=1 # means n_shipped = n_shipped + 1 
+    n_shipped = 0
 
-        else:
-            n_not_shipped +=1
+    for _status in statuses:
 
-    print(n_shipped)
-    print(n_not_shipped)
+        if _status == "shipped":
+
+            n_shipped += 1
+
+    n_shipped
+    return (n_shipped,)
+
+
+@app.cell
+def _(statuses):
+    n_not_shipped = 0
+
+    for _status in statuses:
+
+        if _status != "shipped":
+
+            n_not_shipped += 1
+
+    n_not_shipped
+    return
+
+
+@app.cell
+def _(n_shipped, statuses):
+    percentage_shipped = (n_shipped / len(statuses)) * 100
+
+    percentage_shipped
     return
 
 
@@ -484,7 +488,7 @@ def _(order_lines):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Append always add the exactly one item to the list, even if that item is itself a list
+    The append() method always adds exactly one item to a list, even if that item is another list.
     """)
     return
 
@@ -578,7 +582,7 @@ def _(prices, sale_prices):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    12.5,8.0,19.99.
+    I would want two names to refer to the same list when I intentionally want changes made through either name to update the same data. This is useful when different parts of a program need to work with the same list.
     """)
     return
 
@@ -713,7 +717,6 @@ def _(first_order):
 @app.cell
 def _(first_order):
     first_order["freight"]
-
     return
 
 
@@ -961,7 +964,6 @@ def _():
         {"Symbol": "TSLA", "Shares": 150, "Price": 255.70},
     ]
     portfolio
-
     return (portfolio,)
 
 
@@ -999,7 +1001,6 @@ def _(portfolio):
         total_value = total_value + stock_value
     stock_value
     total_value
-
     return
 
 
